@@ -1,0 +1,46 @@
+# Pip requirements for WeakTok-IDM
+# IMPORTANT: Install PyTorch separately using conda FIRST to ensure CUDA compatibility.
+
+pyyaml
+tqdm
+essentia
+librosa
+pandas
+
+# Optional for experiment tracking and search
+wandb
+optuna
+
+# Optimized for CUDA 12.1 (compatible with RTX 40-series GPUs)
+
+# --- Core PyTorch Framework ---
+# Pinned to a specific CUDA 12.1 build for maximum stability.
+# Use --index-url and --extra-index-url for installation.
+
+transformers==4.41.2
+
+# --- Audio Processing & Analysis ---
+librosa==0.10.2
+essentia==2.1b6.dev858 # Pinned to a stable, available dev version
+soundfile==0.12.1
+pandas==2.2.2
+
+# --- Experiment Management & Optimization ---
+wandb==0.17.0
+optuna==3.6.1
+
+# --- Evaluation & Plotting ---
+matplotlib==3.9.0
+seaborn==0.13.2
+mir_eval==0.7
+
+# --- Core Utilities ---
+numpy==1.26.4
+scipy==1.13.1
+PyYAML==6.0.1
+tqdm==4.66.4
+
+# --- System & Environment ---
+psutil==5.9.8 # For system resource monitoring
+
+

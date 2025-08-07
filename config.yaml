@@ -1,0 +1,68 @@
+# experiments/hp_search_config.yaml
+# CONFIGURATION FOR FAST, STABLE HYPERPARAMETER SEARCH.
+# This file is optimized for running many short trials on a resource-constrained system (like WSL).
+
+# --- File Paths ---
+paths:
+  train_data: "data/train/"
+  val_data: "data/val/"
+  test_data: "data/test/"
+  
+  # Save checkpoints to a separate directory to avoid overwriting final models.
+  checkpoints: "results/models/hp_search/"
+  logs: "results/logs/hp_search/"
+
+# --- Audio Processing Settings ---
+# (These are kept consistent with the main experiment)
+audio:
+  sample_rate: 24000
+  chunk_duration_s: 8.0
+  n_fft: 1024
+  hop_length: 256
+  n_mels: 128
+
+# --- Model Architecture ---
+# (These are kept consistent with the main experiment)
+model:
+  use_dynamic_chunking: true
+  d_model: 256
+  n_head: 4
+  num_main_layers: 4
+
+# --- Training Hyperparameters ---
+training:
+  seed: 42 # Add seed for reproducibility
+  # *** KEY CHANGE FOR HP SEARCH ***
+  # Reduce epochs significantly. We only need to see the early trend of the loss
+  # to determine if a set of hyperparameters is promising.
+  epochs: 20
+  
+  batch_size: 1
+  learning_rate: 0.0001 # This will be overridden by Optuna during the search
+  
+  # Adjust patience for the shorter training run.
+  early_stopping_patience: 5 
+  
+  # We can check L-Score less frequently to speed up trials.
+  lscore_interval: 40
+  
+  # Log training progress every N batches
+  log_interval: 10
+  
+  lambda_l_score: 0.1 # This can also be a parameter in the search space
+  gradient_accumulation_steps: 8
+  
+  # NOTE: val_split is intentionally removed. We now use a fixed validation set,
+  # which is the correct and more reproducible approach.
+
+# --- Loss Function Parameters ---
+# (These are pre-computed statistics from the training dataset)
+loss:
+  lambda_recon: 1.0  # Pure reconstruction loss
+  target_mean: [0.0, 0.0, 0.0, 0.0]  # Effectively disable L-Score loss
+  target_std: [1.0, 1.0, 1.0, 1.0]   # Large std to minimize L-Score impact  # Placeholder values
+
+# --- Experiment Tracking ---
+wandb:
+  project: weaktok_idm_hp_search # Use a separate project for the search
+  # entity: your_wandb_username
