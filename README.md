@@ -241,16 +241,7 @@ Generated samples demonstrate:
 
 ## Citation
 
-If you use WeakTOK in your research, please cite:
 
-```bibtex
-@article{weaktok2024,
-  title={WeakTOK: Intelligent Dance Music Generation with Curriculum Learning},
-  author={[Author Names]},
-  journal={ISMIR Workshop on AI Music Generation},
-  year={2024}
-}
-```
 
 ## License
 
